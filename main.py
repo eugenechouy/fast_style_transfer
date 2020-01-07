@@ -80,8 +80,8 @@ def train(args):
 
             images_original = images.to(device)
             images_transformed = transform_net(images_original)
-		images_original = normalize_batch(images_original)
-		images_transformed = normailize_batch(images_transformed)	    
+            images_original = normalize_batch(images_original)
+            images_transformed = normailize_batch(images_transformed)	    
 
             # Extract features
             features_original = loss_net(images_original)
