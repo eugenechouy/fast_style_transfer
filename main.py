@@ -1,6 +1,7 @@
 import argparse
 import torch
 import sys
+import numpy as np
 from torch.utils.data import DataLoader
 from torch.optim import Adam
 from torchvision import datasets
@@ -40,7 +41,9 @@ def normalize_batch(batch):
 
 def train(args):
     device = torch.device("cpu")
+
     torch.manual_seed(args.seed)
+    np.random.seed(args.seed)
 
     # Create dataloader for the training data
     transform = transforms.Compose([
@@ -74,6 +77,7 @@ def train(args):
     gram_style = [gram_matrix(y) for y in features_style]
 
     for epoch in range(args.epochs):
+        transform_net.train()
         epoch_metrics = {"content": [], "style": [], "total": []}
         for batch_i, (images, _) in enumerate(train_loader):
             optimizer.zero_grad()
@@ -81,14 +85,14 @@ def train(args):
             images_original = images.to(device)
             images_transformed = transform_net(images_original)
             images_original = normalize_batch(images_original)
-            images_transformed = normailize_batch(images_transformed)	    
+            images_transformed = normalize_batch(images_transformed)	    
 
             # Extract features
             features_original = loss_net(images_original)
             features_transformed = loss_net(images_transformed)
 
             # Compute content loss as MSE between features
-            content_loss = args.content_weight * mse_loss(features_original.relu2_2, features_transformed.relu2_2)
+            content_loss = args.content_weight * mse_loss(features_transformed.relu2_2, features_original.relu2_2)
 
             # Compute style loss as MSE between gram matrices
             style_loss = 0.
