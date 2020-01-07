@@ -20,23 +20,23 @@ class ImageTransformNet(torch.nn.Module):
         self.res5 = ResidualBlock(128)
         # deconvolution layers 
         self.deconv1 = ConvLayer(128, 64, 3, 2)
-        self.norm1 = torch.nn.InstanceNorm2d(64, affine=True)
+        self.norm4 = torch.nn.InstanceNorm2d(64, affine=True)
         self.deconv2 = ConvLayer(64, 32, 3, 2)
-        self.norm2 = torch.nn.InstanceNorm2d(32, affine=True)
+        self.norm5 = torch.nn.InstanceNorm2d(32, affine=True)
         self.deconv3 = ConvLayer(32, 3, 3, 2)
         self.relu = torch.nn.ReLU()
 
     def forward(self, x):
-        img = self.relu(self.in1(self.conv1(x)))
-        img = self.relu(self.in2(self.conv2(img)))
-        img = self.relu(self.in3(self.conv3(img)))
+        img = self.relu(self.norm1(self.conv1(x)))
+        img = self.relu(self.norm2(self.conv2(img)))
+        img = self.relu(self.norm3(self.conv3(img)))
         img = self.res1(img)
         img = self.res2(img)
         img = self.res3(img)
         img = self.res4(img)
         img = self.res5(img)
-        img = self.relu(self.in4(self.deconv1(img)))
-        img = self.relu(self.in5(self.deconv2(img)))
+        img = self.relu(self.norm4(self.deconv1(img)))
+        img = self.relu(self.norm5(self.deconv2(img)))
         img = self.deconv3(img)
         return img
 
@@ -65,7 +65,7 @@ class ConvLayer(torch.nn.Module):
         )
     
     def forward(self, x):
-        out = conv(x)
+        out = self.conv(x)
         return out
 
 class LossNetwork(torch.nn.Module):

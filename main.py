@@ -1,6 +1,8 @@
 import argparse
 import torch
+import sys
 from torch.utils.data import DataLoader
+from torch.optim import Adam
 from torchvision import datasets
 from torchvision import transforms
 from PIL import Image
@@ -64,26 +66,26 @@ def train(args):
     loss_net = LossNetwork().to(device)
 
     # Define optimizer and loss
-    optimizer = Adam(transformer.parameters(), args.lr)
+    optimizer = Adam(transform_net.parameters(), args.lr)
     mse_loss = torch.nn.MSELoss().to(device)
 
     # Extract style features
-    features_style = vgg(normalize_batch(style))
+    features_style = loss_net(normalize_batch(style))
     gram_style = [gram_matrix(y) for y in features_style]
 
     for epoch in range(args.epochs):
         epoch_metrics = {"content": [], "style": [], "total": []}
-        for batch_i, (images, _) in enumerate(dataloader):
+        for batch_i, (images, _) in enumerate(train_loader):
             optimizer.zero_grad()
 
             images_original = images.to(device)
-            images_transformed = transformer(images_original)
+            images_transformed = transform_net(images_original)
+		images_original = normalize_batch(images_original)
+		images_transformed = normailize_batch(images_transformed)	    
 
             # Extract features
-            features_original = vgg(images_original)
-            features_transformed = vgg(images_transformed)
-            features_original = normalize_batch(features_original)
-            features_transformed = normalize_batch(features_transformed)
+            features_original = loss_net(images_original)
+            features_transformed = loss_net(images_transformed)
 
             # Compute content loss as MSE between features
             content_loss = args.content_weight * mse_loss(features_original.relu2_2, features_transformed.relu2_2)
