@@ -73,7 +73,7 @@ def train(args):
     mse_loss = torch.nn.MSELoss().to(device)
 
     # Extract style features
-    features_style = loss_net(normalize_batch(style))
+    features_style = loss_net(style)
     gram_style = [gram_matrix(y) for y in features_style]
 
     for epoch in range(args.epochs):
@@ -83,9 +83,7 @@ def train(args):
             optimizer.zero_grad()
 
             images_original = images.to(device)
-            images_transformed = transform_net(images_original)
-            images_original = normalize_batch(images_original)
-            images_transformed = normalize_batch(images_transformed)	    
+            images_transformed = transform_net(images_original)    
 
             # Extract features
             features_original = loss_net(images_original)

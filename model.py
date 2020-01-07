@@ -4,7 +4,7 @@ from collections import namedtuple
 
 class ImageTransformNet(torch.nn.Module):
     def __init__(self):
-        super().__init__()
+        super(ImageTransformNet, self).__init__()
         # convolution layers
         self.conv1 = ConvLayer(3, 32, 9, 1)
         self.norm1 = torch.nn.InstanceNorm2d(32, affine=True)
@@ -42,7 +42,7 @@ class ImageTransformNet(torch.nn.Module):
 
 class ResidualBlock(torch.nn.Module):
     def __init__(self, channels):
-        super().__init__()
+        super(ResidualBlock, self).__init__()
         self.conv1 = ConvLayer(channels, channels, kernel_size=3, stride=1)
         self.in1 = torch.nn.InstanceNorm2d(channels, affine=True)
         self.conv2 = ConvLayer(channels, channels, kernel_size=3, stride=1)
@@ -58,7 +58,7 @@ class ResidualBlock(torch.nn.Module):
 
 class ConvLayer(torch.nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, stride):
-        super().__init__()
+        super(ConvLayer, self).__init__()
         self.conv = torch.nn.Sequential(
             torch.nn.ReflectionPad2d(kernel_size//2),
             torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride) 
@@ -70,7 +70,7 @@ class ConvLayer(torch.nn.Module):
 
 class LossNetwork(torch.nn.Module):
     def __init__(self):
-        super().__init__()
+        super(LossNetwork, self).__init__()
         vgg_pretrained_features = models.vgg16(pretrained=True).features
         self.slice1 = torch.nn.Sequential()
         self.slice2 = torch.nn.Sequential()
