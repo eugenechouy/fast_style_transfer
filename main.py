@@ -60,11 +60,13 @@ def train(args):
     gram_style = [utils.gram_matrix(y) for y in features_style]
 
     for e in range(args.epochs):
+        print(e)
         transformer.train()
         agg_content_loss = 0.
         agg_style_loss = 0.
         count = 0
         for batch_id, (x, _) in enumerate(train_loader):
+            print(batch_id)
             n_batch = len(x)
             count += n_batch
             optimizer.zero_grad()
@@ -181,7 +183,7 @@ def main():
     train_arg_parser.add_argument("--dataset", type=str, required=True,
                                   help="path to training dataset, the path should point to a folder "
                                        "containing another folder with all the training images")
-    train_arg_parser.add_argument("--style-image", type=str, default="images/style-images/mosaic.jpg",
+    train_arg_parser.add_argument("--style-image", type=str, default="images/style_image/udnie.jpg",
                                   help="path to style-image")
     train_arg_parser.add_argument("--save-model-dir", type=str, required=True,
                                   help="path to folder where trained model will be saved.")
