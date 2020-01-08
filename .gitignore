@@ -1,2 +1,15 @@
-__pycache__
+# Editors
+.vscode/
+.idea/
+
+# Vagrant
+.vagrant/
+
+# Mac/OSX
+.DS_Store
+
+__pycache__/
+*.py[cod]
+*$py.class
+
 dataset/
