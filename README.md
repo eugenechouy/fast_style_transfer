@@ -13,12 +13,12 @@
 由於神經網路比較多層加上 dataset 有將近 8G 的資料用我的桌機 train 了兩天都沒好，所以先用網路上其他人 train 的模型
 
 風格圖片：
-<img src=https://i.imgur.com/knbV6es.jpg width=50%>
+<img src=https://i.imgur.com/knbV6es.jpg width=350px>
 
 原圖：
-<img src=https://i.imgur.com/u7dujRP.jpg width=50%> <img src=https://i.imgur.com/wpNxPw2.jpg width=50%>
+<img src=https://i.imgur.com/u7dujRP.jpg width=350px> <img src=https://i.imgur.com/wpNxPw2.jpg width=350px>
 
 結果：
-<img src=https://i.imgur.com/1GetiHD.jpg width=50%> <img src=https://i.imgur.com/9MAt1wJ.jpg width=50%> 
+<img src=https://i.imgur.com/1GetiHD.jpg width=350px> <img src=https://i.imgur.com/9MAt1wJ.jpg width=350px> 
 
 看起來顏色變化太過平坦的區域太廣結果看起來會怪怪的xd
